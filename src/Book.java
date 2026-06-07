@@ -93,22 +93,27 @@ public class Book{
                 this.checkinDate = checkinDate;
 
                 long daysBetween = ChronoUnit.DAYS.between(this.checkoutDate, this.checkinDate); // calculate the dates in between
-
+                boolean overdue = daysBetween > 120;
+                //System.out.println(daysBetween);
                 double fine = 0; // calculate the fine, default case there is no fine.
-                if (daysBetween >= 366) {
+
+                if (daysBetween >= 366 + 120) {
                     fine = 10.0;
-                } else if (daysBetween >= 181) {
+                } else if (daysBetween >= 181 + 120) {
                     fine = 5.0;
-                } else if (daysBetween >= 31) {
+                } else if (daysBetween >= 31 + 120) {
                     fine = 1.0;
+                } else if (daysBetween < 0) {
+                    System.out.println("You can't return a book before you check it out! Time travel is not possible.");
+                    return false;
                 }
-                boolean overdue = fine != 0;
+
                 // format the time as documented on W3Schools.com
                 DateTimeFormatter niceDateFormatter = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
                 String niceCheckinDate = checkinDate.format(niceDateFormatter);
 
                 if (overdue) {
-                    System.out.printf("You returned the book on %s when it was OVERDUE by %d. You owe $%.2f in late fees.", niceCheckinDate, daysBetween, fine);
+                    System.out.printf("You returned the book on %s when it was OVERDUE by %d days. You owe $%.2f in late fees.", niceCheckinDate, daysBetween - 120, fine);
                 } else {
                     System.out.println("Thank you for returning the book on time!");
                 }
@@ -185,7 +190,7 @@ public class Book{
             System.out.println("You can't renew a book that isn't checked out!");
             return false;
         }
-        if (!this.borrower.equals(customer)) { // check if the customer owns the book
+        if (this.borrower == null || !this.borrower.equals(customer)) { // check if the customer owns the book
             System.out.println("You can't renew a book you haven't checked out!");
             return false;
         }
@@ -195,6 +200,8 @@ public class Book{
         // update the attribute parameters as the book has effectively been re-checked out
         this.checkinDate = null;
         this.checkoutDate = renewDate;
+        this.status = ItemStatus.CHECKEDOUT;
+        this.borrower = customer;
         return true;
     }
     /**
@@ -209,4 +216,8 @@ public class Book{
         return renew(customer, LocalDate.now());
     }
 
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }

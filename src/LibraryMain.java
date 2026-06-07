@@ -16,61 +16,50 @@ import java.util.*;
 
 public class LibraryMain
 {
-    public static void main(String args[]){
-        Scanner myScanner = new Scanner(System.in);
-        
+    public static void main(String args[]) {
+        Scanner scanner = new Scanner(System.in);
+
         //Ask input from the keyboard for book information 
         System.out.println("What is the name of the book?");
-        String bookName = myScanner.nextLine();
+        String bookName = scanner.nextLine();
         System.out.println("What is the book ID?");
-        String bookID = myScanner.nextLine();
+        String bookID = scanner.nextLine();
         ItemStatus bookStatus = ItemStatus.AVAILABLE;
-        //Create a  book Object
+        //Create a book Object
         Book book1 = new Book(bookID, bookName, bookStatus);
-        
-        /*Test Case 1: Check out the book and then check in immediately*/
-        System.out.println("============== Test Case 1 =================");
-        //Ask for the customer name
-        System.out.println("What is the customer's name?");
-        String customerName = myScanner.nextLine();
-        //Check out the book
-        System.out.println("Trying to check out the book " +book1.getName());
-        if(book1.checkOut(customerName)){ //if succeed
-            System.out.println(customerName+" now have this book checked out!");
-        }
 
-        //Check in the book
-        System.out.println("Trying to check in the book ");
-        if(book1.checkIn(customerName)){ //if checkin succeed
-            System.out.println(" The book "+book1.getName()+ "is checked in!");
+        String username = "DEFAULT USER";
+        while (true) {
+            System.out.printf(""" 
+                    \n
+                    --- Welcome to the Digital Library Mainframe, %s ---
+                    Your choices are:
+                    (1) Check out our only book
+                    (2) Check in (return) our only book
+                    (3) Renew out only book
+                    (4) Sign Out (exit)
+                    """, username);
+            int userChoice = scanner.nextInt();
+            switch (userChoice) {
+                case (1):
+                    boolean checkOutSuccess = book1.checkOut(username);
+                    System.out.printf("You %sSUCCESSFULLY checked out %s", checkOutSuccess ? "" : "UN", book1 );
+                    break;
+                case (2):
+                    boolean checkInSuccess = book1.checkIn(username);
+                    System.out.printf("You %sSUCCESSFULLY checked in %s", checkInSuccess ? "" : "UN", book1 );
+                    break;
+                case (3):
+                    boolean renewSuccess = book1.renew(username);
+                    System.out.printf("You %sSUCCESSFULLY checked out %s", renewSuccess ? "" : "UN", book1 );
+                    break;
+                case (4):
+                    System.out.println("See you next time!");
+                    return;
+                default:
+                    System.out.println("That's not a valid option...");
+            }
         }
-        System.out.println("============== Test Case 1 End ================= \n");
-
-        /*Test Case 2: Check in a book that was listed as available */
-        //Check in the book
-        System.out.println("============== Test Case 2 =================");
-        System.out.println("Trying to check out the book " +book1.getName() + " that was already returned");
-        if(book1.checkIn(customerName)){ //if checkin succeed
-            System.out.println(" The book "+book1.getName()+ "is checked in!");
-        }
-        System.out.println("============== Test Case 2 End ================= \n ");
-
-        /*Test Case 3: Check out a book, then try to check out again */
-        System.out.println("============== Test Case 3 =================");
-        //Check out the first time
-        System.out.println("Trying to check out the book " +book1.getName());
-        if(book1.checkOut(customerName)){ //if succeed
-            System.out.println(customerName+" now have this book checked out!");
-        }
-        
-        //Try to Check out again
-        System.out.println("Trying to check out the book " +book1.getName()+ " again.");
-        if(book1.checkOut(customerName)){ //if succeed
-            System.out.println(customerName+" now have this book checked out!");
-        }
-        
-        System.out.println("============== Test Case 3 End =================");
-
     }
     
 }
