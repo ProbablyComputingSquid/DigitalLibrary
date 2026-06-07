@@ -4,13 +4,12 @@
  * Author:        Jacob bolling
  * Wisc Email:  jbolling@wisc.edu
  * Created on:  6/6/2026
- * Version:     1.0 
- *              Basic version that test the basic Book class
+ * Version:     1.1
+ *              The Digital Library interface which allows users to check out, return, or renew a book.
 
  * @see Book, ItemStatus
 
 *******************************************************************************/
-
 
 import java.util.*;
 
@@ -40,6 +39,7 @@ public class LibraryMain
                     (4) Sign Out (exit)
                     """, username);
             int userChoice = scanner.nextInt();
+            // switch statement to easily evaluate the user's input.
             switch (userChoice) {
                 case (1):
                     boolean checkOutSuccess = book1.checkOut(username);

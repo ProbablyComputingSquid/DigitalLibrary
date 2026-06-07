@@ -1,8 +1,8 @@
 /**
  * Enumeration for the status of a library item 
- * Author:  Jacob Bolling
+ * Author: Jiazhen Zhou
  * Created: 6/6/2026
- * 
+ * Version 1.0
 */
 
 public enum ItemStatus{

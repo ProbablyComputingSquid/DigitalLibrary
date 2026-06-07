@@ -1,8 +1,19 @@
+/******************************************************************************
+ * Course:      CS300 - Summer 2026
+ * Program:     Program: Digital Library App
+ * Author:        Jacob bolling
+ * Wisc Email:  jbolling@wisc.edu
+ * Created on:  6/6/2026
+ * Version:     1.5
+ *              Unit tests on the Book class
+ * @see Book, ItemStatus
+ *******************************************************************************/
+
 import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Tests {
-    public static void main(String args[]){
+    static void main(String[] args) {
         Scanner myScanner = new Scanner(System.in);
 
         //Ask input from the keyboard for book information
@@ -20,24 +31,24 @@ public class Tests {
         System.out.println("What is the customer's name?");
         String customerName = myScanner.nextLine();
         //Check out the book
-        System.out.println("Trying to check out the book " +book1.getName());
-        if(book1.checkOut(customerName)){ //if succeed
-            System.out.println("SUCCESS: " + customerName+" now has this book checked out!");
+        System.out.println("Trying to check out the book " + book1.getName());
+        if (book1.checkOut(customerName)) { //if succeed
+            System.out.println("SUCCESS: " + customerName + " now has this book checked out!");
         }
 
         //Check in the book
         System.out.println("Trying to check in the book ");
-        if(book1.checkIn(customerName)){ //if checkin succeed
-            System.out.println("SUCCESS: The book "+book1.getName()+ " is checked in!");
+        if (book1.checkIn(customerName)) { //if checkin succeed
+            System.out.println("SUCCESS: The book " + book1.getName() + " is checked in!");
         }
         System.out.println("============== Test Case 1 End ================= \n");
 
         /*Test Case 2: Check in a book that was listed as available */
         //Check in the book
         System.out.println("============== Test Case 2 =================");
-        System.out.println("Trying to check in the book " +book1.getName() + " that was already returned. This should FAIL");
-        if(book1.checkIn(customerName)){ //if checkin succeed
-            System.out.println("SUCCESS: The book "+book1.getName()+ "is checked in!");
+        System.out.println("Trying to check in the book " + book1.getName() + " that was already returned. This should FAIL");
+        if (book1.checkIn(customerName)) { //if checkin succeed
+            System.out.println("SUCCESS: The book " + book1.getName() + "is checked in!");
         } else {
             System.out.println("Operation SUCCESSFULLY failed.");
         }
@@ -46,31 +57,29 @@ public class Tests {
         /*Test Case 3: Check out a book, then try to check out again */
         System.out.println("============== Test Case 3 =================");
         //Check out the first time
-        System.out.println("Trying to check out the book " +book1.getName());
-        if(book1.checkOut(customerName)){ //if succeed
-            System.out.println(customerName+" now have this book checked out!");
+        System.out.println("Trying to check out the book " + book1.getName());
+        if (book1.checkOut(customerName)) { //if succeed
+            System.out.println(customerName + " now have this book checked out!");
         }
 
         //Try to Check out again
-        System.out.println("Trying to check out the book " +book1.getName()+ " again. This should FAIL");
-        if(book1.checkOut(customerName)){ //if succeed
-            System.out.println(customerName+" now have this book checked out!");
+        System.out.println("Trying to check out the book " + book1.getName() + " again. This should FAIL");
+        if (book1.checkOut(customerName)) { //if succeed
+            System.out.println(customerName + " now have this book checked out!");
         } else {
             System.out.println("Operation SUCCESSFULLY failed.");
         }
 
         System.out.println("============== Test Case 3 End =================");
 
-        System.out.println("============== Test Case N =================");
-        System.out.println("============== Test Case N End =================");
         /* Test Case 4: Renew a book that you've already checked out*/
         System.out.println("============== Test Case 4 =================");
         book1.checkIn(customerName);
         System.out.println("Trying to check out the book " + book1.getName());
         LocalDate today = LocalDate.of(2026, 6, 7);
-        LocalDate fakeToday = LocalDate.of(2026,6,29);
-        if(book1.checkOut(customerName, today)){ //if succeed
-            System.out.println(customerName+" now has this book checked out!");
+        LocalDate fakeToday = LocalDate.of(2026, 6, 29);
+        if (book1.checkOut(customerName, today)) { //if succeed
+            System.out.println(customerName + " now has this book checked out!");
         }
         System.out.println("Trying to renew the book " + book1.getName() + " 22 days after it was checked out.");
 
@@ -107,7 +116,7 @@ public class Tests {
         /* Test Case 7: Return a book that's 30 days overdue*/
         System.out.println("============== Test Case 7 =================");
 
-        LocalDate thirtyDays = LocalDate.of(2026,11, 4);
+        LocalDate thirtyDays = LocalDate.of(2026, 11, 4);
         book1.checkOut(customerName, today);
 
         System.out.println("trying to renew the book " + book1.getName() + " 150 days after checkout. It should be overdue without a fine.");
@@ -121,7 +130,7 @@ public class Tests {
         /* Test Case 8: Return a book 2 years after it was checked out*/
         System.out.println("============== Test Case 8 =================");
 
-        LocalDate manyDays = LocalDate.of(2028,6, 7);
+        LocalDate manyDays = LocalDate.of(2028, 6, 7);
         book1.checkOut(customerName, today);
 
         System.out.println("trying to renew the book " + book1.getName() + " 2 years after checkout. It should be overdue with a $10 fine.");
@@ -132,6 +141,20 @@ public class Tests {
             System.out.println("ERROR! This SHOULD HAPPEN");
         }
         System.out.println("============== Test Case 8 End =================");
-        /* Test Case 8: Return a book that's -1 days overdue*/
+        /* Test Case 9: Return a book before it was checked out*/
+        System.out.println("============== Test Case 9 =================");
+
+        LocalDate beforeDate = LocalDate.of(2025, 6, 7);
+        book1.checkOut(customerName, today);
+
+        System.out.println("trying to return the book " + book1.getName() + " before it was checked out.");
+
+        if (book1.checkIn(customerName, beforeDate)) {
+            System.out.println("Book has been SUCCESSfully checked in!");
+        } else {
+            System.out.println("ERROR! This SHOULD HAPPEN");
+        }
+        System.out.println("============== Test Case 9 End =================");
+
     }
 }
