@@ -20,7 +20,7 @@ public class Tests {
         System.out.println("What is the name of the book?");
         String bookName = myScanner.nextLine();
         System.out.println("What is the book ID?");
-        String bookID = myScanner.nextLine();
+        int bookID = myScanner.nextInt();
         ItemStatus bookStatus = ItemStatus.AVAILABLE;
         //Create a book Object
         Book book1 = new Book(bookID, bookName, bookStatus);

@@ -16,7 +16,7 @@ import java.time.temporal.ChronoUnit;
 
 public class Book {
     //Attributes
-    private String id; //a unique id for the book in the library system
+    private int id; //a unique id for the book in the library system
     private String name;
     private ItemStatus status; //CheckedOut, Available, Lost, OnHold
     private String borrower = null; //initialized to no borrower
@@ -26,7 +26,7 @@ public class Book {
     private LocalDate checkoutDate;
 
     //Setters and getters
-    public void setID(String itemID) {
+    public void setID(int itemID) {
         this.id = itemID;
     }
 
@@ -46,7 +46,7 @@ public class Book {
         this.checkoutDate = checkoutDate;
     }
 
-    public String getID() {
+    public int getID() {
         return this.id;
     }
 
@@ -68,7 +68,7 @@ public class Book {
 
 
     //Constructor
-    public Book(String itemID, String itemName, ItemStatus itemStatus) {
+    public Book(int itemID, String itemName, ItemStatus itemStatus) {
         setID(itemID);
         setName(itemName);
         setStatus(itemStatus);
@@ -225,5 +225,11 @@ public class Book {
     @Override
     public String toString() {
         return this.name;
+    }
+
+    public String getInfo() {
+        String formatted = "Book name: %s, Book ID: %d, Book Status: %s";
+        formatted = String.format(formatted, this.name, this.id, this.status);
+        return formatted;
     }
 }
